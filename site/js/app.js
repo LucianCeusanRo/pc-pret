@@ -243,7 +243,7 @@ function renderSources() {
   const s = SNAP.sources, p = SNAP.probes;
   const li = (name, ok, extra = "") => `<li><b>${esc(name)}</b>: ${ok}${extra}</li>`;
   $("#sources").innerHTML = `<ul>
-    ${Object.values(s).map((v) => li(v.label, v.ok ? `✅ ${t("src_ok")}` : `❌ ${t("src_blocked")}`, ` · ${v.items} · ${v.requests} req`)).join("")}
+    ${Object.values(s).map((v) => li(v.label, v.stale_since ? `⚠️ ${t("src_stale", { date: fmtDate(v.stale_since) })}` : v.ok ? `✅ ${t("src_ok")}` : `❌ ${t("src_blocked")}`, ` · ${v.items}`)).join("")}
     ${Object.entries(p).map(([k, v]) => li({ emag: "eMAG.ro", altex: "Altex.ro", flanco: "Flanco.ro", pcgarage: "PC Garage" }[k] || k, v.blocked ? `❌ ${t("src_blocked")} (HTTP ${v.http})` : `⚠️ ${t("src_reach")}`)).join("")}
   </ul><p class="muted">${esc(fmtDate(SNAP.generated))}</p>`;
 }

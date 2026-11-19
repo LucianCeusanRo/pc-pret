@@ -87,7 +87,7 @@ To add a real integration later, implement `bookPickup(request) → { ok, awb, t
 - PSU and case are not valued.
 - Data is from the Romanian market, in lei, even for BG/HU pickup.
 - The estimate is not a binding offer; the final amount is set after checking the PC.
-- If OLX or evoMAG block GitHub's servers in the future, the last good snapshot stays and the site shows the source as blocked.
+- evoMAG rate-limits GitHub Actions servers (HTTP 429). When a source fails, the scraper keeps that source's listings from the last good run with their original fetch dates, and the site marks it "temporarily blocked" with the date. Running the scraper from a home connection (`python3 scraper/scrape.py` then commit) refreshes it.
 
 ### About
 Built by Lucian Ceușan with AI-assisted coding. I'm a beginner and still learning programming; feedback and issues are welcome.

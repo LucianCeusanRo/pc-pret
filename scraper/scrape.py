@@ -47,13 +47,18 @@ def fetch(url):
         time.sleep(wait)
     _last[host] = time.time()
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "ro-RO,ro;q=0.9"})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            return (r.status, r.read().decode("utf8", "replace"))
-    except urllib.error.HTTPError as e:
-        return (e.code, "")
-    except Exception as e:
-        return ("error:" + type(e).__name__, "")
+    for attempt in (1, 2):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return (r.status, r.read().decode("utf8", "replace"))
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and attempt == 1:
+                time.sleep(60)  # rate limited: back off once, then give up
+                continue
+            return (e.code, "")
+        except Exception as e:
+            return ("error:" + type(e).__name__, "")
+    return ("error", "")
 
 def now_iso():
     return datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat()
@@ -212,8 +217,29 @@ def main():
                 "kind": kind, "name": item["name"],
                 "used": summarize([p["price"] for p in used if p["condition"] == "used"]),
                 "new": summarize([p["price"] for p in new]),
-                "listings": sorted(used, key=lambda x: x["price"]) + sorted(new, key=lambda x: x["price"])[:20],
+                "listings": sorted(used, key=lambda x: x["price"]) + sorted(new, key=lambda x: x["price"]),
             }
+    # If a source failed this run (blocked / rate limited), keep its listings from the
+    # previous snapshot instead of showing nothing. Those listings keep their ORIGINAL
+    # fetch date, and the source is marked stale on the site.
+    try:
+        prev = json.loads(OUT.read_text(encoding="utf8"))
+    except Exception:
+        prev = None
+    for src in ("olx", "evomag"):
+        prev_items = (prev or {}).get("sources", {}).get(src, {}).get("items", 0)
+        if prev and sources[src]["items"] < 0.5 * prev_items:
+            sources[src]["stale_since"] = prev["sources"][src].get("stale_since") or prev["generated"]
+            sources[src]["items_this_run"] = sources[src]["items"]
+            sources[src]["items"] = 0
+            for mid, m in models.items():
+                pm = prev["models"].get(mid)
+                old = [l for l in (pm or {}).get("listings", []) if l["source"] == src]
+                m["listings"] = [l for l in m["listings"] if l["source"] != src] + old
+                sources[src]["items"] += len(old)
+            for m in models.values():
+                m["used"] = summarize([l["price"] for l in m["listings"] if l["source"] == "olx" and l["condition"] == "used"])
+                m["new"] = summarize([l["price"] for l in m["listings"] if l["source"] == "evomag"])
     probes = {k: probe(u) for k, u in PROBES.items()}
     for k, v in sources.items():
         v["ok"] = v["items"] > 0
