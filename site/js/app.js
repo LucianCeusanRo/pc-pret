@@ -78,29 +78,25 @@ function estimate(conf) {
 function renderEstimate(e) {
   const box = $("#result");
   const pawnCmp = e.offer > e.pawnHigh ? "us_vs_pawn_above" : e.offer >= e.pawnLow ? "us_vs_pawn_within" : "us_vs_pawn_below";
-  const listLink = (id) => `<a href="#search" data-model="${id}">${t("res_n", { n: SNAP.models[id].listings.length })}</a>`;
   box.innerHTML = `
     <h2>${esc(t("res_title"))}</h2>
     <div class="offer"><span class="big">${e.offer ? ron(e.offer) : "—"}</span><span class="pill">🚚 ${esc(t("free_shipping"))}</span></div>
     <p class="muted">${esc(t("disclaimer"))}</p>
-    <table class="parts"><thead><tr><th>${esc(t("res_component"))}</th><th>${esc(t("res_used"))}</th><th>${esc(t("res_new"))}</th><th></th></tr></thead><tbody>
-    ${e.rows.map(({ kind, id, m }) => `<tr><td><b>${esc(t(KINDS[kind]))}</b><br>${esc(m.name)}</td>
-      <td>${m.used ? ron(m.used.median) + `<br><small>${ron(m.used.p25)}–${ron(m.used.p75)} · n=${m.used.n}</small>` : `<i>${esc(t("no_data"))}</i>`}</td>
-      <td>${m.new ? ron(m.new.median) + `<br><small>n=${m.new.n}</small>` : "—"}</td><td>${listLink(id)}</td></tr>`).join("")}
-    </tbody><tfoot><tr><td>${esc(t("market_ref"))}</td><td colspan="3"><b>${ron(e.ref)}</b></td></tr></tfoot></table>
+    <h3>${esc(t("parts_title"))}</h3>
+    <ul class="partlist">${e.rows.map(({ kind, m }) => `<li><b>${esc(t(KINDS[kind]))}:</b> ${esc(m.name)}${m.used ? "" : ` <i class="warn">(${esc(t("no_data"))})</i>`}</li>`).join("")}</ul>
     ${e.missing.length ? `<p class="warn">${esc(t("missing_note", { list: e.missing.join(", ") }))}</p>` : ""}
     <details><summary>${esc(t("how_title"))}</summary><p>${esc(t("how_text"))}</p></details>
     <h3>${esc(t("cmp_title"))}</h3>
     <div class="cmp">
       <div class="card"><h4>${esc(t("cmp_pawn"))}</h4><div class="amt">${ron(e.pawnLow)} – ${ron(e.pawnHigh)}</div><p>${esc(t("pawn_text"))} <a href="${CFG.pawn_range.source}" target="_blank" rel="noopener">${esc(t("pawn_source"))}</a></p></div>
-      <div class="card"><h4>${esc(t("cmp_olx"))}</h4><div class="amt">≈ ${ron(e.ref)}</div><p>${esc(t("olx_text"))}</p></div>
       <div class="card us"><h4>${esc(t("cmp_us"))}</h4><div class="amt">${ron(e.offer)}</div><p>${esc(t("us_text"))}</p></div>
     </div>
     <p><b>${esc(t(pawnCmp))}</b></p>
+    <h3>${esc(t("benefits_title"))}</h3>
+    <ul class="benefits"><li>🚚 ${esc(t("b1"))}</li><li>⚡ ${esc(t("b2"))}</li><li>🤝 ${esc(t("b3"))}</li><li>🏠 ${esc(t("b4"))}</li></ul>
     <p class="muted">${esc(t("data_from", { date: fmtDate(e.snapshot), n: e.rows.reduce((a, r) => a + (r.m.used ? r.m.used.n : 0), 0) }))}</p>
     <div class="actions"><button id="b_save">${esc(t("btn_save"))}</button><button id="b_sell" class="primary">${esc(t("btn_sell"))}</button><button id="b_contact">${esc(t("btn_contact"))}</button></div>
     <div id="reqform"></div><p id="actmsg" class="msg"></p>`;
-  $$("a[data-model]", box).forEach((a) => a.addEventListener("click", (ev) => { ev.preventDefault(); $("#q").value = SNAP.models[a.dataset.model].name.replace(/\(.*?\)/g, ""); showTab("search"); runSearch(a.dataset.model); }));
   $("#b_save").onclick = saveOffer;
   $("#b_sell").onclick = () => openRequest("sell");
   $("#b_contact").onclick = () => openRequest("contact");

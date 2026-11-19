@@ -48,3 +48,6 @@ tr.deal td{background:rgba(61,220,151,.07)}
 .badge{display:inline-block;background:var(--acc);color:#06140d;border-radius:6px;padding:1px 6px;font-size:12px;font-weight:700}
 footer{color:var(--muted);font-size:14px;padding:24px 16px 40px}
 details{margin:10px 0}summary{cursor:pointer;color:#7fb4ff}
+.partlist,.benefits{padding-left:18px;margin:6px 0}
+.benefits{list-style:none;padding-left:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.benefits li{background:#121620;border:1px solid var(--line);border-radius:10px;padding:10px 12px}

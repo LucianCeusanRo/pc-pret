@@ -9,7 +9,7 @@
 ### What it is
 A small Romanian website with two tools:
 
-1. **Sell your PC** – pick your CPU, graphics card, RAM, SSD, motherboard, condition and whether it's a prebuilt. You get an instant estimated offer in lei, based on current second-hand prices from OLX and new prices from a shop (evoMAG). It also shows a side-by-side: pawn shop vs selling on OLX yourself vs selling through us.
+1. **Sell your PC** – pick your CPU, graphics card, RAM, SSD, motherboard, condition and whether it's a prebuilt. You get an instant estimated offer in lei, calculated from current second-hand market data (OLX listings). The sell page shows only the offer, a pawn shop comparison and the benefits (free courier pickup, fast, no haggling, no meetups); it does not display the underlying market prices.
 2. **Find a deal** – type something like `4070` and see the current OLX and shop listings, a reference price (median of the listings) and which ones are below it.
 
 Every price on the site comes from a real listing fetched by the scraper, with its link and the date it was fetched. Nothing is made up.
@@ -53,8 +53,8 @@ The OLX JSON API is disallowed in OLX's robots.txt, so the scraper reads the nor
 ### Step-by-step tutorial
 1. Open the site. In **Vinde PC-ul**, pick your parts. Choose "— nu am / nu știu —" for anything you don't know.
 2. Pick the condition and the pickup country, tick that the PC works, press **Calculează oferta**.
-3. Read the table: each part shows the OLX median, the price range, how many listings it's based on, and a link to those listings.
-4. Compare the three columns (pawn shop / OLX / us) and decide.
+3. See your offer and your setup. Parts without enough data are marked.
+4. Compare with the typical pawn shop range and decide.
 5. Optional: create an account to save the offer, send a sell request (pick a courier), or ask to be called.
 6. In **Caută ofertă**, type a model (e.g. `3060`, `b550`, `ddr4 32gb`). Green rows are below the reference price.
 
@@ -99,7 +99,7 @@ Built by Lucian Ceușan with AI-assisted coding. I'm a beginner and still learni
 ### Ce este
 Un site mic, în română (și engleză, bulgară, maghiară), cu două unelte:
 
-1. **Vinde PC-ul** – alegi procesorul, placa video, RAM-ul, SSD-ul, placa de bază, starea și dacă e PC de firmă sau asamblat. Primești pe loc o ofertă estimată în lei, calculată din prețurile second-hand de pe OLX și din prețurile noi de la un magazin (evoMAG). Vezi și comparația: amanet vs vânzare pe OLX vs prin noi.
+1. **Vinde PC-ul** – alegi procesorul, placa video, RAM-ul, SSD-ul, placa de bază, starea și dacă e PC de firmă sau asamblat. Primești pe loc o ofertă estimată în lei, calculată din datele actuale din piața second-hand (anunțuri OLX). Pagina de vânzare arată doar oferta, comparația cu amanetul și avantajele (ridicare gratuită prin curier, rapid, fără negocieri, fără întâlniri); nu afișează prețurile de piață din spate.
 2. **Caută ofertă** – scrii de exemplu `4070` și vezi anunțurile actuale de pe OLX și din magazin, un preț de referință (mediana) și care sunt sub el.
 
 Fiecare preț de pe site vine dintr-un anunț real preluat de script, cu linkul și data preluării. Nu inventăm nimic.
@@ -123,8 +123,8 @@ Intervalul de amanet (40–70% din valoarea second-hand) vine din ghidul public 
 ### Tutorial pas cu pas
 1. Deschide site-ul, tab-ul **Vinde PC-ul**, și alege componentele („— nu am / nu știu —” dacă nu știi).
 2. Alege starea și țara, bifează că PC-ul funcționează, apasă **Calculează oferta**.
-3. În tabel vezi pentru fiecare componentă mediana OLX, intervalul, pe câte anunțuri se bazează și linkul spre ele.
-4. Compară cele trei variante (amanet / OLX / noi) și decide.
+3. Vezi oferta și configurația ta. Componentele fără date suficiente sunt marcate.
+4. Compară cu intervalul tipic de amanet și decide.
 5. Opțional: fă-ți cont ca să salvezi oferta, să trimiți o cerere de vânzare (alegi curierul) sau să ceri să fii sunat.
 6. În **Caută ofertă** scrii un model (ex. `3060`, `b550`, `ddr4 32gb`). Rândurile verzi sunt sub prețul de referință.
 
