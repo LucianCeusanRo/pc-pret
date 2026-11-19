@@ -1,0 +1,64 @@
+name: Snapshot and deploy
+
+on:
+  schedule:
+    - cron: "17 4 * * *"   # once a day, ~06:17 / 07:17 Romania time
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch new price snapshot (scheduled / manual runs only)
+        if: github.event_name != 'push'
+        continue-on-error: true   # if every source fails, the previous snapshot is kept
+        run: python3 scraper/scrape.py
+      - name: Commit snapshot
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "pc-pret-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add site/data/snapshot.json
+          git diff --cached --quiet || git commit -m "data: price snapshot $(date -u +%F)"
+          git push || true
+      - name: Inject public client config
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+        run: |
+          python3 - <<'PY'
+          import os, json, pathlib
+          p = pathlib.Path("site/js/config.js")
+          s = p.read_text()
+          s = s.replace('SUPABASE_URL: ""', 'SUPABASE_URL: ' + json.dumps(os.environ.get("SUPABASE_URL", "")))
+          s = s.replace('SUPABASE_ANON_KEY: ""', 'SUPABASE_ANON_KEY: ' + json.dumps(os.environ.get("SUPABASE_ANON_KEY", "")))
+          p.write_text(s)
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.d.outputs.page_url }}
+    steps:
+      - id: d
+        uses: actions/deploy-pages@v4

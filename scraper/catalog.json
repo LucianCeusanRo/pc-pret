@@ -1,0 +1,70 @@
+{
+  "_note": "Models we price. 'match' = regex (case-insensitive) a listing title must match; 'exclude' = regex it must NOT match. OLX query uses 'q'.",
+  "gpu": [
+    {"id":"gtx-1650","name":"GeForce GTX 1650","q":"gtx 1650","match":"gtx\\s*1650","exclude":"super"},
+    {"id":"gtx-1660-super","name":"GeForce GTX 1660 Super","q":"gtx 1660 super","match":"1660\\s*super"},
+    {"id":"rtx-2060","name":"GeForce RTX 2060","q":"rtx 2060","match":"rtx\\s*2060","exclude":"super"},
+    {"id":"rtx-2070-super","name":"GeForce RTX 2070 Super","q":"rtx 2070 super","match":"2070\\s*super"},
+    {"id":"rtx-3060","name":"GeForce RTX 3060 12GB","q":"rtx 3060","match":"rtx\\s*3060","exclude":"ti|\\b8\\s*gb"},
+    {"id":"rtx-3060-ti","name":"GeForce RTX 3060 Ti","q":"rtx 3060 ti","match":"3060\\s*ti"},
+    {"id":"rtx-3070","name":"GeForce RTX 3070","q":"rtx 3070","match":"rtx\\s*3070","exclude":"ti"},
+    {"id":"rtx-3080","name":"GeForce RTX 3080","q":"rtx 3080","match":"rtx\\s*3080","exclude":"ti"},
+    {"id":"rtx-4060","name":"GeForce RTX 4060","q":"rtx 4060","match":"rtx\\s*4060","exclude":"ti"},
+    {"id":"rtx-4060-ti","name":"GeForce RTX 4060 Ti","q":"rtx 4060 ti","match":"4060\\s*ti"},
+    {"id":"rtx-4070","name":"GeForce RTX 4070","q":"rtx 4070","match":"rtx\\s*4070","exclude":"ti|super"},
+    {"id":"rtx-4070-super","name":"GeForce RTX 4070 Super","q":"rtx 4070 super","match":"4070\\s*super","exclude":"ti"},
+    {"id":"rtx-4070-ti","name":"GeForce RTX 4070 Ti","q":"rtx 4070 ti","match":"4070\\s*ti","exclude":"super"},
+    {"id":"rtx-4080","name":"GeForce RTX 4080","q":"rtx 4080","match":"rtx\\s*4080","exclude":"super"},
+    {"id":"rtx-4090","name":"GeForce RTX 4090","q":"rtx 4090","match":"rtx\\s*4090"},
+    {"id":"rtx-5060","name":"GeForce RTX 5060","q":"rtx 5060","match":"rtx\\s*5060","exclude":"ti"},
+    {"id":"rtx-5060-ti","name":"GeForce RTX 5060 Ti","q":"rtx 5060 ti","match":"5060\\s*ti"},
+    {"id":"rtx-5070","name":"GeForce RTX 5070","q":"rtx 5070","match":"rtx\\s*5070","exclude":"ti"},
+    {"id":"rtx-5070-ti","name":"GeForce RTX 5070 Ti","q":"rtx 5070 ti","match":"5070\\s*ti"},
+    {"id":"rtx-5080","name":"GeForce RTX 5080","q":"rtx 5080","match":"rtx\\s*5080"},
+    {"id":"rx-580","name":"Radeon RX 580","q":"rx 580","match":"rx\\s*580"},
+    {"id":"rx-6600","name":"Radeon RX 6600","q":"rx 6600","match":"rx\\s*6600","exclude":"xt"},
+    {"id":"rx-6700-xt","name":"Radeon RX 6700 XT","q":"rx 6700 xt","match":"6700\\s*xt"},
+    {"id":"rx-6800","name":"Radeon RX 6800","q":"rx 6800","match":"rx\\s*6800","exclude":"xt"},
+    {"id":"rx-7600","name":"Radeon RX 7600","q":"rx 7600","match":"rx\\s*7600","exclude":"xt"},
+    {"id":"rx-7800-xt","name":"Radeon RX 7800 XT","q":"rx 7800 xt","match":"7800\\s*xt"},
+    {"id":"rx-7900-xt","name":"Radeon RX 7900 XT","q":"rx 7900 xt","match":"7900\\s*xt\\b","exclude":"xtx"},
+    {"id":"rx-9070-xt","name":"Radeon RX 9070 XT","q":"rx 9070 xt","match":"9070\\s*xt"}
+  ],
+  "cpu": [
+    {"id":"r5-3600","name":"Ryzen 5 3600","q":"ryzen 5 3600","match":"ryzen\\s*5\\s*3600","exclude":"x"},
+    {"id":"r5-5600","name":"Ryzen 5 5600","q":"ryzen 5 5600","match":"5600\\b","exclude":"5600x|5600g|5600xt|rx"},
+    {"id":"r5-5600x","name":"Ryzen 5 5600X","q":"ryzen 5600x","match":"5600x\\b","exclude":"rx|xt"},
+    {"id":"r7-5700x","name":"Ryzen 7 5700X","q":"ryzen 5700x","match":"5700x\\b","exclude":"3d|rx|xt"},
+    {"id":"r7-5800x3d","name":"Ryzen 7 5800X3D","q":"5800x3d","match":"5800x3d"},
+    {"id":"r5-7600","name":"Ryzen 5 7600 / 7600X","q":"ryzen 7600","match":"ryzen\\s*5?\\s*7600","exclude":"rx|xt\\b"},
+    {"id":"r7-7800x3d","name":"Ryzen 7 7800X3D","q":"7800x3d","match":"7800x3d"},
+    {"id":"r7-9800x3d","name":"Ryzen 7 9800X3D","q":"9800x3d","match":"9800x3d"},
+    {"id":"i5-10400","name":"Core i5-10400(F)","q":"i5 10400","match":"10400"},
+    {"id":"i5-12400","name":"Core i5-12400(F)","q":"i5 12400","match":"12400"},
+    {"id":"i5-13400","name":"Core i5-13400(F)","q":"i5 13400","match":"13400"},
+    {"id":"i5-12600k","name":"Core i5-12600K(F)","q":"i5 12600k","match":"12600k"},
+    {"id":"i5-14600k","name":"Core i5-14600K(F)","q":"i5 14600k","match":"14600k"},
+    {"id":"i7-12700k","name":"Core i7-12700K(F)","q":"i7 12700k","match":"12700k"},
+    {"id":"i7-14700k","name":"Core i7-14700K(F)","q":"i7 14700k","match":"14700k"},
+    {"id":"i9-13900k","name":"Core i9-13900K(F)","q":"i9 13900k","match":"13900k"}
+  ],
+  "ram": [
+    {"id":"ddr4-16","name":"16 GB DDR4 (2x8)","q":"ddr4 16gb","match":"ddr4.*\\b16\\s*gb|\\b16\\s*gb.*ddr4|2\\s*x\\s*8\\s*gb.*ddr4|ddr4.*2\\s*x\\s*8","exclude":"laptop|sodimm|so-dimm"},
+    {"id":"ddr4-32","name":"32 GB DDR4 (2x16)","q":"ddr4 32gb","match":"ddr4.*\\b32\\s*gb|\\b32\\s*gb.*ddr4|2\\s*x\\s*16\\s*gb.*ddr4|ddr4.*2\\s*x\\s*16","exclude":"laptop|sodimm|so-dimm"},
+    {"id":"ddr5-32","name":"32 GB DDR5 (2x16)","q":"ddr5 32gb","match":"ddr5.*\\b32\\s*gb|\\b32\\s*gb.*ddr5|2\\s*x\\s*16\\s*gb.*ddr5|ddr5.*2\\s*x\\s*16","exclude":"laptop|sodimm|so-dimm"},
+    {"id":"ddr5-64","name":"64 GB DDR5 (2x32)","q":"ddr5 64gb","match":"ddr5.*\\b64\\s*gb|\\b64\\s*gb.*ddr5","exclude":"laptop|sodimm|so-dimm"}
+  ],
+  "ssd": [
+    {"id":"nvme-500","name":"SSD NVMe 500 GB","q":"ssd nvme 500gb","match":"(nvme|m\\.2).*(500|512)\\s*gb|(500|512)\\s*gb.*(nvme|m\\.2)"},
+    {"id":"nvme-1tb","name":"SSD NVMe 1 TB","q":"ssd nvme 1tb","match":"(nvme|m\\.2).*\\b1\\s*tb|\\b1\\s*tb.*(nvme|m\\.2)"},
+    {"id":"nvme-2tb","name":"SSD NVMe 2 TB","q":"ssd nvme 2tb","match":"(nvme|m\\.2).*\\b2\\s*tb|\\b2\\s*tb.*(nvme|m\\.2)"}
+  ],
+  "mb": [
+    {"id":"b450","name":"Placă de bază B450 (AM4)","q":"placa de baza b450","match":"b450"},
+    {"id":"b550","name":"Placă de bază B550 (AM4)","q":"placa de baza b550","match":"b550"},
+    {"id":"b650","name":"Placă de bază B650 (AM5)","q":"placa de baza b650","match":"b650"},
+    {"id":"b660","name":"Placă de bază B660 (LGA1700)","q":"placa de baza b660","match":"b660"},
+    {"id":"b760","name":"Placă de bază B760 (LGA1700)","q":"placa de baza b760","match":"b760"},
+    {"id":"z790","name":"Placă de bază Z790 (LGA1700)","q":"placa de baza z790","match":"z790"}
+  ]
+}

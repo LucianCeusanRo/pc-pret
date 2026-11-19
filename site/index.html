@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PC Preț — cât valorează PC-ul tău</title>
+<meta name="description" content="Estimare instant pentru PC-ul tău din prețuri reale OLX și magazine. Caută oferte la plăci video, procesoare, RAM și SSD.">
+<meta property="og:title" content="PC Preț — Nu te mai joci? PC-ul stă degeaba?">
+<meta property="og:description" content="Estimare instant din prețuri reale OLX și evoMAG, cu linkul fiecărui anunț.">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖥️</text></svg>">
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#sell">🖥️ PC Preț</a>
+    <nav>
+      <button data-tab="sell" data-i="nav_sell"></button>
+      <button data-tab="search" data-i="nav_search"></button>
+      <button data-tab="account" data-i="nav_account"></button>
+      <button data-tab="about" data-i="nav_about"></button>
+    </nav>
+    <select id="lang" aria-label="Language"></select>
+  </div>
+</header>
+<main class="wrap">
+  <section id="sell" class="tab">
+    <div class="hero">
+      <span class="pill">🚚 <span data-i="free_shipping"></span></span>
+      <h1 data-i="hero_title"></h1>
+      <p data-i="hero_sub"></p>
+      <p class="muted" id="datafrom"></p>
+    </div>
+    <form id="sellform" class="panel grid">
+      <fieldset class="full"><legend data-i="f_type"></legend>
+        <label class="inline"><input type="radio" name="type" value="custom" checked> <span data-i="t_custom"></span></label>
+        <label class="inline"><input type="radio" name="type" value="prebuilt"> <span data-i="t_prebuilt"></span></label>
+      </fieldset>
+      <label><span data-i="f_cpu"></span><select id="s_cpu"></select></label>
+      <label><span data-i="f_gpu"></span><select id="s_gpu"></select></label>
+      <label><span data-i="f_ram"></span><select id="s_ram"></select></label>
+      <label><span data-i="f_ssd"></span><select id="s_ssd"></select></label>
+      <label><span data-i="f_mb"></span><select id="s_mb"></select></label>
+      <label><span data-i="f_cond"></span><select id="s_cond">
+        <option value="like_new" data-i="c_like_new"></option>
+        <option value="good" data-i="c_good" selected></option>
+        <option value="worn" data-i="c_worn"></option></select></label>
+      <label><span data-i="f_country"></span><select id="s_country">
+        <option value="RO">România</option><option value="BG">България</option><option value="HU">Magyarország</option></select></label>
+      <label class="inline full"><input type="checkbox" id="s_works"> <span data-i="f_works"></span></label>
+      <div class="full"><button class="primary big" data-i="btn_estimate"></button> <span id="formerr" class="err"></span></div>
+    </form>
+    <div id="result" class="panel" hidden></div>
+  </section>
+
+  <section id="search" class="tab" hidden>
+    <h1 data-i="search_title"></h1>
+    <p class="muted" data-i="search_hint"></p>
+    <form id="sform" class="searchbar"><input id="q" data-ph="search_ph" autocomplete="off"><button class="primary" data-i="search_btn"></button></form>
+    <div id="sres"></div>
+  </section>
+
+  <section id="account" class="tab" hidden>
+    <h1 data-i="acc_title"></h1>
+    <div id="acc"></div>
+    <h3 data-i="privacy_title"></h3>
+    <p class="muted" data-i="privacy_text"></p>
+  </section>
+
+  <section id="about" class="tab" hidden>
+    <h1 data-i="about_title"></h1>
+    <p data-i="about_text"></p>
+    <h3 data-i="src_title"></h3>
+    <div id="sources"></div>
+    <h3 data-i="limits_title"></h3>
+    <p data-i="limits_text"></p>
+    <h3 data-i="privacy_title"></h3>
+    <p data-i="privacy_text"></p>
+  </section>
+</main>
+<footer class="wrap"><p><span data-i="footer"></span> · <a href="https://github.com/LucianCeusanRo/pc-pret" data-i="source_code"></a></p></footer>
+<script src="js/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/couriers.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

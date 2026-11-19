@@ -1,0 +1,11 @@
+{
+  "_note": "Business settings used by the sell estimate. Change here, no code changes needed. courier_cost_ron is our cost per pickup (shipping is free for the seller); RO from the owner, BG/HU are placeholders to confirm with a real courier quote.",
+  "margin": 0.28,
+  "courier_cost_ron": { "RO": 25, "BG": 60, "HU": 60 },
+  "condition_factor": { "like_new": 1.0, "good": 0.92, "worn": 0.8 },
+  "prebuilt_factor": 0.95,
+  "round_to": 10,
+  "deal_threshold": 0.85,
+  "pawn_range": { "low": 0.4, "high": 0.7, "source": "https://magnor.ro/blog/post/amanet-electronice-ghid-2026" },
+  "contact_email": ""
+}
