@@ -83,7 +83,7 @@ function renderEstimate(e) {
     <div class="offer"><span class="big">${e.offer ? ron(e.offer) : "—"}</span><span class="pill">🚚 ${esc(t("free_shipping"))}</span></div>
     <p class="muted">${esc(t("disclaimer"))}</p>
     <h3>${esc(t("parts_title"))}</h3>
-    <ul class="partlist">${e.rows.map(({ kind, m }) => `<li><b>${esc(t(KINDS[kind]))}:</b> ${esc(m.name)}${m.used ? "" : ` <i class="warn">(${esc(t("no_data"))})</i>`}</li>`).join("")}</ul>
+    <ul class="partlist">${e.rows.map(({ kind, m }) => `<li><b>${esc(t(KINDS[kind]))}:</b> ${esc(m.name)}${m.used ? "" : ` <i class="warn">(${esc(t("cannot_estimate"))})</i>`}</li>`).join("")}</ul>
     ${e.missing.length ? `<p class="warn">${esc(t("missing_note", { list: e.missing.join(", ") }))}</p>` : ""}
     <details><summary>${esc(t("how_title"))}</summary><p>${esc(t("how_text"))}</p></details>
     <h3>${esc(t("cmp_title"))}</h3>
@@ -238,10 +238,24 @@ function runSearch(onlyModel) {
 function renderSources() {
   const s = SNAP.sources, p = SNAP.probes;
   const li = (name, ok, extra = "") => `<li><b>${esc(name)}</b>: ${ok}${extra}</li>`;
+  const labels = { emag: "eMAG.ro", altex: "Altex.ro", flanco: "Flanco.ro", pcgarage: "PC Garage",
+    vinted: "Vinted.ro", lajumate: "Lajumate.ro", okazii: "Okazii.ro", publi24: "Publi24.ro", ebay: "eBay" };
   $("#sources").innerHTML = `<ul>
     ${Object.values(s).map((v) => li(v.label, v.stale_since ? `⚠️ ${t("src_stale", { date: fmtDate(v.stale_since) })}` : v.ok ? `✅ ${t("src_ok")}` : `❌ ${t("src_blocked")}`, ` · ${v.items}`)).join("")}
-    ${Object.entries(p).map(([k, v]) => li({ emag: "eMAG.ro", altex: "Altex.ro", flanco: "Flanco.ro", pcgarage: "PC Garage" }[k] || k, v.blocked ? `❌ ${t("src_blocked")} (HTTP ${v.http})` : `⚠️ ${t("src_reach")}`)).join("")}
+    ${Object.entries(p).map(([k, v]) => {
+      const note = v.note ? ` — ${esc(v.note)}` : "";
+      const st = v.blocked ? `❌ ${t("src_blocked")}${v.http != null ? " (HTTP " + v.http + ")" : ""}` : `⚠️ ${t("src_reach")}`;
+      return li(labels[k] || k, st + note, "");
+    }).join("")}
   </ul><p class="muted">${esc(fmtDate(SNAP.generated))}</p>`;
+  const meth = $("#methodology");
+  if (meth) {
+    const m = SNAP.methodology || {};
+    const counts = m.counts || {};
+    meth.innerHTML = `<p>${esc(t("meth_text"))}</p>
+      <ol>${(m.estimate_order || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ol>
+      <p class="muted">${esc(t("meth_counts", { obs: counts.observed ?? "—", est: counts.estimated ?? "—", none: counts.none ?? "—" }))}</p>`;
+  }
 }
 
 // ---------- boot ----------

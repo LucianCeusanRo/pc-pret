@@ -24,6 +24,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Unit tests (offline)
+        run: python3 scraper/tests/test_scrape.py
       - name: Fetch new price snapshot (scheduled / manual runs only)
         if: github.event_name != 'push'
         continue-on-error: true   # if every source fails, the previous snapshot is kept

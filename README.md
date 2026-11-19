@@ -37,7 +37,7 @@ Browser
 
 | Source | Used for | Status at first snapshot |
 |---|---|---|
-| OLX.ro search pages (category + query, "used" filter) | second-hand prices | ✅ works |
+| OLX.ro search pages (category + query variants, "used" filter, up to 5 pages) | second-hand prices | ✅ works |
 | evoMAG.ro category pages (JSON-LD product list) | new prices | ✅ works |
 | eMAG.ro | – | ❌ blocked (captcha, HTTP 511), not used |
 | Altex.ro | – | ❌ no response (timeout), not used |
@@ -46,7 +46,7 @@ Browser
 
 The OLX JSON API is disallowed in OLX's robots.txt, so the scraper reads the normal public search pages instead. evoMAG's own search (`?sn.q=`) is disallowed too, so it reads category pages.
 
-**Offer formula.** Market value = sum of the OLX second-hand medians of the chosen parts (after dropping outliers, at least 3 listings per part). Offer = market value × condition factor × prebuilt factor × (1 − margin) − courier cost, rounded down. All factors live in [`site/config.json`](site/config.json). Shipping is free for the seller; the courier cost is ours.
+**Offer formula.** Market value = sum of the used references of the chosen parts (OLX median when n ≥ 3 after outlier drop; otherwise a documented estimate from shop-new × depreciation or a neighbour). Offer = market value × condition factor × prebuilt factor × (1 − margin) − courier cost, rounded down. All factors live in [`site/config.json`](site/config.json). Shipping is free for the seller; the courier cost is ours.
 
 **Pawn shop range.** 40–70% of the used market value, taken from MAGNOR's public guide ([source](https://magnor.ro/blog/post/amanet-electronice-ghid-2026)). It's a typical range, not a quote.
 
@@ -83,7 +83,8 @@ To add a real integration later, implement `bookPickup(request) → { ok, awb, t
 - Listing prices are asking prices, not sold prices.
 - Model matching uses the listing title and can be wrong sometimes; outliers are dropped but not all noise.
 - Only one shop (evoMAG) for new prices; stock is not checked.
-- OLX search returns mostly the first 1–2 pages per model, so counts are small for some models. Parts with fewer than 3 listings show "not enough data".
+- OLX is paginated (up to 5 pages and alternate queries per model). When a part still has fewer than 3 used listings, we **estimate** a used reference from the shop new price × a documented generation depreciation factor, or from a neighbouring model — we do **not** show "not enough data" for mainstream parts. The method is stored in the snapshot and explained on the About page. Truly unknown items show "cannot estimate".
+- Vinted, Lajumate, Publi24 and Okazii were probed: search is blocked by robots, needs a login/API, or has no stable public price markup. eBay needs the owner's free developer key (optional, not scraped).
 - PSU and case are not valued.
 - Data is from the Romanian market, in lei, even for BG/HU pickup.
 - The estimate is not a binding offer; the final amount is set after checking the PC.
@@ -132,7 +133,7 @@ Intervalul de amanet (40–70% din valoarea second-hand) vine din ghidul public 
 Fan Courier, Sameday, Cargus (RO), Speedy, Econt (BG), GLS, MPL (HU). Deocamdată nu rezervăm automat: salvăm cererea și te contactăm. Codul are o interfață (`bookPickup`) pregătită pentru API-urile curierilor, care trebuie apelate de pe un server, nu din browser.
 
 ### Limitări
-Prețurile din anunțuri sunt prețuri cerute, nu prețuri de vânzare. Potrivirea după titlu poate greși. Un singur magazin pentru prețuri noi, fără verificare de stoc. Sursa și carcasa nu intră în calcul. Componentele cu mai puțin de 3 anunțuri apar cu „fără date suficiente”. Estimarea nu e o ofertă fermă.
+Prețurile din anunțuri sunt prețuri cerute, nu prețuri de vânzare. Potrivirea după titlu poate greși. Un singur magazin pentru prețuri noi, fără verificare de stoc. Sursa și carcasa nu intră în calcul. Sub 3 anunțuri OLX folosim o estimare documentată (preț nou × amortizare / model apropiat), nu „fără date suficiente”. Vinted/Lajumate/Publi24/Okazii nu sunt integrate (robots / markup / API). eBay opțional cu cheie de dezvoltator. Estimarea nu e o ofertă fermă.
 
 ### Despre
 Făcut de Lucian Ceușan cu ajutorul programării asistate de AI. Sunt începător și încă învăț programare; orice feedback e binevenit.
